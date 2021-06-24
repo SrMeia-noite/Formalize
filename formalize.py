@@ -34,6 +34,76 @@ class Formalize (object):
             y1 += yi
 
     def line(p, q, char):
+        """
+        slope:
+            y = mx + b
+
+            m = tanθ 
+              | ∆y/∆x
+
+            b = y - (∆y/∆x)x
+
+        Bresenham's:
+            y = mx + C
+            y = m(xₖ + 1) + C
+
+            d₁ = y - yₖ = m(xₖ + 1) + C - yₖ
+
+            d₂ = yₖ + 1 - y = yₖ + 1 - m(xₖ + 1) - C
+
+            '''
+            yₖ+1 [ ] [ ]
+                     /| d₂
+                    • •
+                   /  | d₁
+            yₖ   [×] [ ]
+                 xₖ  xₖ+1
+            '''
+
+            xₙ = xₖ + 1
+            yₙ = (d₁ - d₂) < 0 ? yₖ : yₖ+1
+
+            d₁ - d₂ = [m(xₖ + 1) + C - yₖ] - [yₖ + 1 - m(xₖ + 1) - C]
+
+            d₁ - d₂ = m(xₖ + 1) + C - yₖ - yₖ - 1 + m(xₖ + 1) + C
+
+            d₁ - d₂ = 2m(xₖ + 1) - 2yₖ + 2C - 1
+
+            ∆x(d₁ - d₂) = ∆x[2(∆y/∆x)(xₖ + 1) - 2yₖ + 2C - 1]
+
+            ∆x(d₁ - d₂) = 2∆y(xₖ + 1) - 2∆xyₖ + 2∆xC - ∆x
+
+            pₖ = ∆x(d₁ - d₂) = 2∆yxₖ - 2∆xyₖ + 2∆y + 2∆xC - ∆x
+
+            pₖ = ∆x(d₁ - d₂) = 2∆yxₖ - 2∆xyₖ + (2∆y + 2∆xC - ∆x)/x
+
+            pₖ = ∆x(d₁ - d₂) = 2∆yxₖ - 2∆xyₖ
+
+            pₙ = ∆x(d₁ - d₂) = 2∆yxₙ - 2∆xyₙ
+
+            pₙ - pₖ = [2∆yxₙ - 2∆xyₙ] - [2∆yxₖ - 2∆xyₖ]
+
+            pₙ - pₖ = 2∆yxₙ - 2∆xyₙ - 2∆yxₖ + 2∆xyₖ
+
+            pₙ - pₖ = 2∆y(xₙ - xₖ) - 2∆x(yₙ - yₖ)
+
+            pₙ - pₖ < 0
+            → pₙ = pₖ + 2∆y(xₖ + 1 - xₖ) - 2∆x(yₖ - yₖ)
+            ⟹ pₙ = pₖ + 2∆y
+
+            pₙ - pₖ ≥ 0
+            → pₙ = pₖ + 2∆y(xₖ + 1 - xₖ) - 2∆x(yₖ + 1 - yₖ)
+            ⟹ pₙ = pₖ + 2∆y - 2∆x
+
+            P₁ = 2∆yx₁ - 2∆xy₁ + 2∆y + 2∆xC - ∆x
+
+            P₁ = 2∆yx₁ - 2∆xy₁ + 2∆y + 2∆x[y₁ - (∆y/∆x)x₁] - ∆x
+
+            P₁ = 2∆yx₁ - 2∆xy₁ + 2∆y + 2∆xy₁ - 2∆yx₁ - ∆x
+
+            P₁ = 2∆y - ∆x
+        """
+        
         x1, y1 = p
         x2, y2 = q
 
