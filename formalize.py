@@ -1,18 +1,16 @@
 class Formalize (object):
 
     @staticmethod
-    def gotoxy(x, y):
-        print("%c[%d;%df" % (0x1B, y, x), end = "")
+    def gotoxy(x, y): print("%c[%d;%df" % (0x1B, y, x), end = "")
     
     @staticmethod
-    def putxy(x, y, string):
-        Formalize.gotoxy(x, y); print(string)
+    def putxy(x, y, string): Formalize.gotoxy(x, y); print(string)
     
     @staticmethod
     def get(): from msvcrt import getwch as get; return get()
 
     @staticmethod
-    def clr(): from os import system as cmd; cmd("cls")
+    def clrscr(): from os import system as cmd; cmd("cls")
 
     @staticmethod
     def line(p, q, char):
@@ -66,3 +64,37 @@ class Formalize (object):
                     if offset >= threshold:
                         x         += adjust
                         threshold += thresholdIncrement
+
+    @staticmethod
+    def rectangle(XOffset, YOffset, width, height, leftWall = "#", upWall = "#", downWall = "#", rightWall = "#"):
+        Formalize.line(
+            (XOffset, YOffset),
+            (XOffset + width, YOffset),
+            upWall
+        )
+
+        Formalize.line(
+            (XOffset, YOffset),
+            (XOffset, YOffset + height),
+            leftWall
+        )
+
+        Formalize.line(
+            (XOffset, YOffset + height),
+            (XOffset + width, YOffset + height),
+            downWall
+        )
+
+        Formalize.line(
+            (XOffset + width, YOffset),
+            (XOffset + width, YOffset + height),
+            rightWall
+        )
+
+    @staticmethod
+    def changeState(key, state, options):
+        TLength      = len(options) - 1
+
+        return (state - 1) * (state > 0       and key == "w") + \
+               (state + 1) * (state < TLength and key == "s") + \
+               (TLength)   * (state == 0      and key == "w")
