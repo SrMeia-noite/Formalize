@@ -93,7 +93,7 @@ class Formalize (object):
 
     @staticmethod
     def changeState(key, state, options):
-        TLength      = len(options) - 1
+        TLength = len(options) - 1
 
         return (state - 1) * (state > 0       and key == "w") + \
                (state + 1) * (state < TLength and key == "s") + \
