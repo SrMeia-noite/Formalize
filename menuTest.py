@@ -8,10 +8,35 @@ class WF(object):
         while True:
             option = self.menu()
             
-            if   option == 0: pass
-            elif option == 1: pass
-            elif option == 2: break
-            
+            if option == 0:
+                self.game()
+            elif option == 1:
+                pass
+            elif option == 2:
+                break
+
+    def game(self):
+        buttons = [
+            "Fight",
+            "Workshop",
+            "Back",
+        ]; state = 0
+
+        while True:
+            Game.Formalize.clrscr()
+
+            Game.Formalize.rectangle((0, 0), 31, 7)
+
+            Game.Formalize.putxy((13, 2), "WF")
+
+            for i in range(len(buttons)):
+                Game.Formalize.putxy((3, 3 + i), f"{f'> {Game.Styles.Colors.GruvBox.FGRed}' if state == i else ''}{buttons[i]}{Game.Styles.Style.Reset}")
+
+            key = Game.Formalize.get()
+
+            if key == "e": return state
+
+            state = Game.Formalize.changeState(key, state, buttons)
 
     def menu(self):
         buttons = [
@@ -23,12 +48,12 @@ class WF(object):
         while True:
             Game.Formalize.clrscr()
 
-            Game.Formalize.rectangle(0, 0, 31, 7)
+            Game.Formalize.rectangle((0, 0), 31, 7)
 
-            Game.Formalize.putxy(11, 2, "Main Menu")
+            Game.Formalize.putxy((11, 2), "Main Menu")
 
             for i in range(len(buttons)):
-                Game.Formalize.putxy(3, 3 + i, f"{f'> {Game.Styles.Colors.GruvBox.FGRed}' if state == i else ''}{buttons[i]}{Game.Styles.Style.Reset}")
+                Game.Formalize.putxy((3, 3 + i), f"{f'> {Game.Styles.Colors.GruvBox.FGRed}' if state == i else ''}{buttons[i]}{Game.Styles.Style.Reset}")
 
             key = Game.Formalize.get()
 
